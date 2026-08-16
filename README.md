@@ -20,24 +20,19 @@ python -m http.server 8080
 
 然后访问 http://localhost:8080 。
 
-## 部署到公网
+## 部署到 GitHub Pages
 
-推荐使用 Vercel：
+项目已经包含 GitHub Actions 配置文件 `.github/workflows/deploy-pages.yml`。推送到 `agent/chatmirror-web-prototype` 分支后，GitHub 会自动发布静态文件。
 
-1. 注册或登录 Vercel。
-2. 将 `ai-chat-prototype` 文件夹上传到 GitHub 仓库，或使用 Vercel CLI。
-3. 在 Vercel 中导入该仓库，Root Directory 选择项目目录。
-4. Framework Preset 选择 `Other`，Build Command 留空，Output Directory 留空。
-5. 点击 Deploy，完成后会得到一个 `vercel.app` 公网地址。
+首次使用需要在 GitHub 仓库中打开：`Settings` → `Pages` → `Build and deployment` → `Source` 选择 `GitHub Actions`。
 
-如果使用命令行，可在项目目录执行：
+部署完成后，网站地址为：
 
-```powershell
-npm i -g vercel
-vercel --prod
+```text
+https://sijuemao.github.io/chatmirror-ai/
 ```
 
-部署后，手机、平板和其他电脑都可以通过公网地址打开，不需要运行本地 Python 服务。
+以后每次推送到该分支，GitHub Actions 都会自动更新网站，不需要运行本地 Python 服务。
 
 ## 自定义 API
 
