@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="ChatMirror AI 聊天风格模拟器原型" />
+  <title>ChatMirror · AI聊天风格模拟器</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark">C</div>
+        <div>
+          <strong>ChatMirror</strong>
+          <span>聊天风格模拟器</span>
+        </div>
+      </div>
+
+      <button class="new-profile-btn" id="newProfileBtn"><span>＋</span> 创建模拟对象</button>
+
+      <div class="sidebar-label">我的模拟对象</div>
+      <div class="profile-list" id="profileList"></div>
+
+      <div class="sidebar-bottom">
+        <button class="nav-btn" data-panel="settings"><span>⚙</span> 模型与 API 设置</button>
+        <button class="nav-btn" data-panel="privacy"><span>▣</span> 隐私与数据</button>
+        <div class="prototype-tip">原型调试版<br />AI 回复仅供测试，不代表真实人物</div>
+      </div>
+    </aside>
+
+    <main class="main-area">
+      <header class="topbar">
+        <div class="mobile-brand"><div class="brand-mark">C</div><strong>ChatMirror</strong></div>
+        <div class="topbar-actions">
+          <span class="status-dot"></span><span id="modelStatus">本地模拟模式</span>
+          <button class="icon-btn" id="openImportBtn" title="导入聊天记录">⇩</button>
+          <button class="avatar">我</button>
+        </div>
+      </header>
+
+      <section class="workspace">
+        <div class="chat-column">
+          <div class="chat-heading">
+            <div class="person-heading">
+              <div class="person-avatar" id="headingAvatar">林</div>
+              <div><h1 id="headingName">林晓晓</h1><p><span class="online-dot"></span> AI 模拟中 · 风格已加载</p></div>
+            </div>
+            <button class="outline-btn" id="openStyleBtn">查看风格</button>
+          </div>
+
+          <div class="safety-banner"><span>✦</span><span>这是 AI 模拟对话，已根据授权资料生成。请勿用于冒充或欺骗他人。</span><button id="closeBanner">×</button></div>
+
+          <div class="messages" id="messages"></div>
+
+          <div class="composer-wrap">
+            <div class="quick-tools">
+              <button id="emojiBtn">☺ 表情</button>
+              <button id="voiceBtn">◉ 语音输入</button>
+              <button id="attachBtn">＋ 添加资料</button>
+              <input id="emojiInput" type="file" accept="image/*" multiple hidden />
+              <input id="voiceInput" type="file" accept="audio/*" hidden />
+            </div>
+            <div class="composer">
+              <textarea id="messageInput" rows="1" placeholder="输入你想说的话…"></textarea>
+              <button class="send-btn" id="sendBtn">发送 <span>↗</span></button>
+            </div>
+            <div class="composer-hint">Enter 发送 · Shift + Enter 换行</div>
+          </div>
+        </div>
+
+        <aside class="insight-panel">
+          <div class="panel-title"><span>模拟设置</span><button id="openSettingsBtn">⚙</button></div>
+          <div class="setting-group">
+            <label>性格</label>
+            <div class="chip-grid" id="personalityChips">
+              <button class="chip active" data-value="温柔">温柔</button><button class="chip" data-value="活泼">活泼</button><button class="chip" data-value="冷淡">冷淡</button><button class="chip" data-value="毒舌">毒舌</button><button class="chip" data-value="成熟">成熟</button><button class="chip" data-value="搞怪">搞怪</button>
+            </div>
+          </div>
+          <div class="setting-group">
+            <label>对你的态度</label>
+            <select id="attitudeSelect"><option value="亲近">亲近</option><option value="普通">普通</option><option value="客气">客气</option><option value="敷衍">有点敷衍</option><option value="暧昧">暧昧</option></select>
+          </div>
+          <div class="setting-group">
+            <label>回复长度</label>
+            <div class="segmented" id="lengthSelect"><button class="active" data-value="简短">简短</button><button data-value="适中">适中</button><button data-value="详细">详细</button></div>
+          </div>
+          <div class="setting-group toggle-row"><div><label>自动使用表情包</label><small>根据语境推荐图片</small></div><button class="toggle active" id="emojiToggle"><span></span></button></div>
+          <div class="style-card"><div class="style-card-head"><span>当前风格摘要</span><button id="editStyleBtn">编辑</button></div><p id="styleSummary">简短口语化，喜欢使用“哈哈”“真的嘛”，偶尔用狗头和捂脸表情。</p><div class="confidence"><span>风格匹配度</span><strong id="confidenceValue">78%</strong><div class="progress"><i id="confidenceBar"></i></div></div></div>
+          <div class="uploaded-emojis"><div class="style-card-head"><span>常用表情包</span><button id="uploadEmojiBtn">上传</button></div><div class="emoji-strip" id="emojiStrip"><div class="empty-emoji">上传你的真实表情包</div></div></div>
+        </aside>
+      </section>
+    </main>
+  </div>
+
+  <div class="modal-backdrop" id="modalBackdrop" hidden>
+    <div class="modal" id="importModal" hidden>
+      <div class="modal-head"><div><h2>导入聊天记录</h2><p>请只导入你有权使用的聊天内容</p></div><button class="close-modal">×</button></div>
+      <div class="drop-zone" id="dropZone"><span class="drop-icon">⇩</span><strong>拖入文件，或点击选择</strong><small>支持 TXT、CSV、JSON；也可以直接粘贴</small><input type="file" id="chatFileInput" accept=".txt,.csv,.json,text/plain,application/json" hidden /></div>
+      <textarea id="chatImportText" class="import-text" placeholder="例如：\n我：今天好累\n林晓晓：那早点休息呀，明天会更好的～"></textarea>
+      <div class="modal-actions"><button class="text-btn close-modal">取消</button><button class="primary-btn" id="analyzeBtn">分析并应用风格</button></div>
+    </div>
+
+    <div class="modal" id="styleModal" hidden>
+      <div class="modal-head"><div><h2>风格档案</h2><p>模型根据当前资料提取的模拟规则</p></div><button class="close-modal">×</button></div>
+      <div class="style-detail" id="styleDetail"></div>
+      <div class="modal-actions"><button class="primary-btn close-modal">完成</button></div>
+    </div>
+
+    <div class="modal" id="settingsModal" hidden>
+      <div class="modal-head"><div><h2>模型与 API 设置</h2><p>默认使用本地模拟；接入 API 仅用于本地调试</p></div><button class="close-modal">×</button></div>
+      <div class="form-grid"><label>API 地址<input id="apiBaseInput" placeholder="https://api.example.com/v1/chat/completions" /></label><label>模型名称<input id="apiModelInput" placeholder="例如 gpt-4o-mini" /></label><label class="full-width">API Key<input id="apiKeyInput" type="password" placeholder="不会显示在聊天内容中" /></label></div>
+      <label class="check-row"><input type="checkbox" id="apiEnabledInput" /> 启用自定义 API（浏览器直连，仅适合本地测试）</label>
+      <div class="warning-box">注意：公开部署时不要把 API Key 放在前端。正式版应通过后端代理调用，并对密钥加密保存。</div>
+      <div class="modal-actions"><button class="text-btn close-modal">取消</button><button class="primary-btn" id="saveSettingsBtn">保存设置</button></div>
+    </div>
+
+    <div class="modal" id="privacyModal" hidden>
+      <div class="modal-head"><div><h2>隐私与数据</h2><p>原型数据仅保存在当前浏览器</p></div><button class="close-modal">×</button></div>
+      <div class="privacy-copy"><p>聊天记录、风格设置和上传的表情包默认保存在浏览器本地，不会自动上传到服务器。</p><p>请勿导入未获得授权的聊天记录、声音、照片或其他个人资料。</p></div>
+      <div class="modal-actions"><button class="danger-btn" id="clearDataBtn">清除本地数据</button><button class="primary-btn close-modal">知道了</button></div>
+    </div>
+  </div>
+  <div class="toast" id="toast"></div>
+  <script src="app.js"></script>
+</body>
+</html>
