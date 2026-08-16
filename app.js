@@ -71,9 +71,10 @@ function analyzeChat(text) {
 }
 
 function resizeTextarea() { const el = $('messageInput'); el.style.height = 'auto'; el.style.height = `${Math.min(el.scrollHeight, 110)}px`; }
+function refreshIcons() { if (window.lucide) window.lucide.createIcons({ attrs: { 'stroke-width': 1.8 } }); }
 
 document.addEventListener('DOMContentLoaded', () => {
-  loadState(); updateProfileView(); renderMessages(); renderStyleDetail();
+  loadState(); updateProfileView(); renderMessages(); renderStyleDetail(); refreshIcons();
   document.querySelectorAll('.chip').forEach(btn => btn.classList.toggle('active', btn.dataset.value === state.personality));
   document.querySelectorAll('#lengthSelect button').forEach(btn => btn.classList.toggle('active', btn.dataset.value === state.length));
   document.querySelectorAll('.chip').forEach(btn => btn.addEventListener('click', () => { document.querySelectorAll('.chip').forEach(b => b.classList.remove('active')); btn.classList.add('active'); state.personality = btn.dataset.value; saveState(); }));
