@@ -59,7 +59,8 @@ async function sendMessage() {
 
 function openModal(id) { $('modalBackdrop').hidden = false; document.querySelectorAll('.modal').forEach(m => m.hidden = true); $(id).hidden = false; }
 function closeModal() { $('modalBackdrop').hidden = true; }
-function updateProfileView() { $('headingName').textContent = state.profile.name; $('headingAvatar').textContent = state.profile.avatar; $('styleSummary').textContent = state.profile.style; $('confidenceValue').textContent = `${state.profile.confidence}%`; $('confidenceBar').style.width = `${state.profile.confidence}%`; renderEmojis(); }
+function updateProfileView() { $('headingName').textContent = state.profile.name; $('headingAvatar').textContent = state.profile.avatar; $('styleSummary').textContent = state.profile.style; $('confidenceValue').textContent = `${state.profile.confidence}%`; $('confidenceBar').style.width = `${state.profile.confidence}%`; renderProfiles(); renderEmojis(); }
+function renderProfiles() { $('profileList').innerHTML = `<button class="profile-item active" type="button"><div class="profile-avatar">${escapeHtml(state.profile.avatar)}</div><div class="profile-text"><strong>${escapeHtml(state.profile.name)}</strong><span>风格档案 · ${state.profile.confidence}% 匹配</span></div></button>`; }
 function renderEmojis() { const strip = $('emojiStrip'); strip.innerHTML = state.emojis.length ? state.emojis.map(e => `<img class="emoji-thumb" src="${e}" alt="上传的表情包" />`).join('') : '<div class="empty-emoji">上传你的真实表情包</div>'; }
 function renderStyleDetail() { $('styleDetail').innerHTML = [['回复长度', state.length === '详细' ? '适中偏详细' : state.length], ['语言特点', state.profile.style], ['高频表达', '哈哈、真的嘛'], ['样本状态', '已加载当前风格档案'], ['风格匹配度', `${state.profile.confidence}%`]].map(([k,v]) => `<div class="detail-row"><span>${k}</span><strong>${escapeHtml(v)}</strong></div>`).join(''); }
 
