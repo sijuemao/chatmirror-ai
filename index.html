@@ -106,11 +106,14 @@
   </div>
 
   <div class="modal-backdrop" id="modalBackdrop" hidden>
-    <div class="modal" id="importModal" hidden>
-      <div class="modal-head"><div><span class="eyebrow">资料导入</span><h2>导入聊天记录</h2><p>请只导入你有权使用的聊天内容</p></div><button class="close-modal" aria-label="关闭"><i data-lucide="x"></i></button></div>
-      <div class="drop-zone" id="dropZone"><i class="drop-icon" data-lucide="file-up"></i><strong>拖入文件，或点击选择</strong><small>支持 TXT、CSV、JSON，也可以直接粘贴</small><input type="file" id="chatFileInput" accept=".txt,.csv,.json,text/plain,application/json" hidden /></div>
-      <textarea id="chatImportText" class="import-text" placeholder="例如：\n我：今天好累\n林晓晓：那早点休息呀，明天会更好的～"></textarea>
-      <div class="modal-actions"><button class="text-btn close-modal">取消</button><button class="primary-btn" id="analyzeBtn">分析并应用风格</button></div>
+    <div class="modal import-modal" id="importModal" hidden>
+      <div class="modal-head"><div><span class="eyebrow">IMPORT WORKBENCH</span><h2>导入聊天资料</h2><p>从你拥有权限的记录中建立风格样本</p></div><button class="close-modal" aria-label="关闭"><i data-lucide="x"></i></button></div>
+      <div class="import-source-block"><div class="import-field-label">记录来源</div><div class="import-source-row" role="group" aria-label="选择聊天记录来源"><button class="source-chip active" type="button" data-source="微信"><i data-lucide="message-circle"></i>微信</button><button class="source-chip" type="button" data-source="QQ"><i data-lucide="messages-square"></i>QQ</button><button class="source-chip" type="button" data-source="抖音"><i data-lucide="play-square"></i>抖音</button><button class="source-chip" type="button" data-source="其他"><i data-lucide="more-horizontal"></i>其他</button></div><small class="import-helper">平台不会被自动登录或抓取；你只提交自己选择的资料。</small></div>
+      <div class="drop-zone" id="dropZone" role="button" tabindex="0" aria-label="选择聊天文件、截图、表情包或语音"><i class="drop-icon" data-lucide="file-up"></i><strong>拖入资料，或点击选择</strong><small>可一次选择多个 TXT、CSV、JSON、截图、表情包和语音</small><input type="file" id="chatFileInput" accept=".txt,.csv,.json,text/plain,application/json,image/*,audio/*" multiple hidden /></div>
+      <div class="import-grid"><div><label class="import-field-label" for="chatImportText">聊天文字</label><textarea id="chatImportText" class="import-text" placeholder="例如：\n我：今天好累\n林晓晓：那早点休息呀，明天会更好的～"></textarea></div><div class="import-side"><label class="import-field-label" for="importTarget">模仿对象</label><select id="importTarget"><option value="对方消息">对方消息</option><option value="我发的消息">我发的消息</option><option value="自动判断">自动判断</option></select><div class="import-preview" id="importPreview" aria-live="polite"><div class="import-preview-head"><span>导入检查</span><strong id="importReadyState">等待资料</strong></div><div class="import-stats"><div><strong id="importLineCount">0</strong><span>文字行</span></div><div><strong id="importSpeakerCount">0</strong><span>说话人</span></div><div><strong id="importAssetCount">0</strong><span>媒体文件</span></div></div><div class="import-assets" id="importAssets"><span class="import-empty">上传的截图、表情和语音会显示在这里</span></div></div></div></div>
+      <label class="import-consent"><input type="checkbox" id="importConsent" /><span>我确认这些聊天文字、图片和声音已获得使用授权，并同意只用于本次风格分析。</span></label>
+      <div class="import-notice"><i data-lucide="shield-check"></i><span>当前版本只在浏览器中预览。截图 OCR、语音转写和长期云端保存需要后端服务，暂不会自动上传。</span></div>
+      <div class="modal-actions"><button class="text-btn close-modal">取消</button><button class="primary-btn" id="analyzeBtn" disabled>分析并应用风格</button></div>
     </div>
     <div class="modal" id="styleModal" hidden>
       <div class="modal-head"><div><span class="eyebrow">STYLE PROFILE</span><h2>风格档案</h2><p>模型根据当前资料提取的模拟规则</p></div><button class="close-modal" aria-label="关闭"><i data-lucide="x"></i></button></div>

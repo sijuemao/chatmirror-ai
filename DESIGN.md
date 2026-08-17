@@ -24,6 +24,8 @@ ChatMirror is an operate-first conversation tool, not a marketing dashboard. The
 - Conversation bubbles use a 10px radius. Sender messages use paper-orange; simulated messages use a raised dark frame.
 - The conversation rail uses persistent frame stops and one current tape marker.
 - Inspector sections use dividers and proximity instead of nested cards.
+- Import workbench uses source chips, a drop zone, live stats, and a consent gate to make batch input legible before analysis.
+- Media files appear as compact evidence rows; the interface distinguishes selected source material from generated chat output.
 
 ## Motion and states
 
